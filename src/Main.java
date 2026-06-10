@@ -1,50 +1,17 @@
-import Vozila.*;
-import java.io.*;
+import Vozila.Automobil;
+import Vozila.Motocikl;
+import Vozila.NeispravniPodatciException;
+import Vozila.Vozilo;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class EvidencijaVozila {
-    public static String spremiPodatkeUDatoteku(ArrayList<Vozilo> ListaVozila) throws IOException {
-        File baza = new File("C:/Evidencija.txt");
-        baza.createNewFile();
-        if (baza.exists()) {
-            try (PrintWriter pw = new PrintWriter(new FileWriter(baza, true))) {
-                for (Vozilo vozilo : ListaVozila) {
-                    pw.println(vozilo.getClass().getSimpleName() + ", " + vozilo.getMarka() + ", " + vozilo.getRegOz() + ", " + vozilo.getGodPr());
-                }
-            }
-        } else {
-            throw new NeispravniPodatciException("Datoteka na toj putanji ne postoji!");
-        }
-        return "";
-    }
-    public static String dohvatiPodatkeIzDatoteke(ArrayList<Vozilo> ListaVozila) throws IOException {
-        File baza = new File("C:/Evidencija.txt");
-        if (baza.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(baza))) {
-                String redak;
-                while ((redak = br.readLine()) != null) {
-                    String[] dijelovi = redak.split(", ");
-                    String tip = dijelovi[0];
-                    String marka = dijelovi[1];
-                    String regOz = dijelovi[2];
-                    int godPr = Integer.parseInt(dijelovi[3]);
-                    switch (tip) {
-                        case "Automobil":
-                            ListaVozila.add(new Automobil(marka, godPr, regOz, 0));
-                            break;
-                        case "Motocikl":
-                            ListaVozila.add(new Motocikl(marka, godPr, regOz, "nepoznato"));
-                            break;
-                        default:
-                            ListaVozila.add(new Vozilo(marka, godPr, regOz));
-                    }
-                }
-            }
-        } else {
-            throw new NeispravniPodatciException("Datoteka ne postoji!");
-        }
-        return "";
-    }
+import static Vozila.EvidencijaVozila.dohvatiPodatkeIzDatoteke;
+import static Vozila.EvidencijaVozila.spremiPodatkeUDatoteku;
+
+public class Main {
     public static void main(String[] args) throws IOException {
         boolean meni = true;
         ArrayList<Vozilo> ListaVozila = new ArrayList<>();
@@ -87,7 +54,7 @@ public class EvidencijaVozila {
                                 String rega = br.readLine();
                                 System.out.println("Unesite broj vrata automobila");
                                 int brVr = Integer.parseInt(br.readLine());
-                                if (!(brVr >= 1 && brVr <= 5)) {
+                                if (!(brVr >= 2 && brVr <= 5)) {
                                     throw new NeispravniPodatciException("Pogresno unesen broj vrata automobila!");
                                 }
                                 ListaVozila.add(new Automobil(nazivV, GodPr, rega, brVr));
