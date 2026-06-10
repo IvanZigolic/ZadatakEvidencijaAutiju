@@ -10,16 +10,14 @@ public class EvidencijaVozila {
         if (baza.exists()) {
             try (PrintWriter pw = new PrintWriter(new FileWriter(baza, true))) {
                 for (Vozilo vozilo : ListaVozila) {
-                    if(vozilo instanceof Vozilo){
-                        pw.println(vozilo.getClass().getSimpleName() + ", " + vozilo.getMarka() + ", " + vozilo.getRegOz());
-                    }
-                    else if(vozilo instanceof Automobil){
-                        Automobil a =  (Automobil) vozilo;
-                        pw.println(a.getClass().getSimpleName() + ", " + a.getMarka() + ", " + a.getRegOz() + ", " + a.getBrojVrata());
-                    }
-                    else if(vozilo instanceof Motocikl){
+                    if (vozilo instanceof Automobil) {
+                        Automobil a = (Automobil) vozilo;
+                        pw.println(a.getClass().getSimpleName() + ", " + a.getMarka() + ", " + a.getGodPr() + ", " + a.getRegOz() + ", " + a.getBrojVrata());
+                    } else if (vozilo instanceof Motocikl) {
                         Motocikl m = (Motocikl) vozilo;
-                        pw.println(m.getClass().getSimpleName() + ", " + m.getMarka() + ", " + m.getRegOz() + ", " + m.getTipMotora());
+                        pw.println(m.getClass().getSimpleName() + ", " + m.getMarka() + ", " + m.getGodPr() + ", " + m.getRegOz() + ", " + m.getTipMotora());
+                    } else {
+                        pw.println(vozilo.getClass().getSimpleName() + ", " + vozilo.getMarka() + ", " + vozilo.getGodPr() + ", " + vozilo.getRegOz());
                     }
                 }
             }
@@ -38,8 +36,8 @@ public class EvidencijaVozila {
                     String[] dijelovi = redak.split(", ");
                     String tip = dijelovi[0];
                     String marka = dijelovi[1];
-                    String regOz = dijelovi[2];
-                    int godPr = Integer.parseInt(dijelovi[3]);
+                    int godPr = Integer.parseInt(dijelovi[2]);
+                    String regOz = dijelovi[3];
                     switch (tip) {
                         case "Automobil":
                             int brojVrata = Integer.parseInt(dijelovi[4]);
